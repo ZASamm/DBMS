@@ -9,15 +9,24 @@ db = create_engine("postgresql:///chinook")
 base = declarative_base()
 
 # create a class-based model for the "Programmer" table
-class Programmer(base):
-    __tablename__ = "Programmer"
-    id = Column(Integer, primary_key=True)
-    first_name = Column(String)
-    last_name = Column(String)
-    gender = Column(String)
-    nationality = Column(String)
-    famous_for = Column(String)
+# class Programmer(base):
+#     __tablename__ = "Programmer"
+#     id = Column(Integer, primary_key=True)
+#     first_name = Column(String)
+#     last_name = Column(String)
+#     gender = Column(String)
+#     nationality = Column(String)
+#     famous_for = Column(String)
     
+# Challenge
+# create class for favorite places
+class Places(base):
+    __tablename__ = "Favorite Places"
+    id = Column(Integer, primary_key=True)
+    country_name = Column(String)
+    capital_city = Column(String)
+    population = Column(Integer)
+       
     
 # instead of connecting to the database directly, we will ask for a session
 # create a new instance of sessionmaker, then point to our engine (the db)
@@ -29,62 +38,61 @@ session = Session()
 base.metadata.create_all(db)
 
 # creating records on our Programmer table
-ada_lovelace = Programmer(
-    first_name = "Ada",
-    last_name = "Lovelace",
-    gender = "F",
-    nationality = "British",  
-    famous_for = "First Programmer"
-)
+# ada_lovelace = Programmer(
+#     first_name = "Ada",
+#     last_name = "Lovelace",
+#     gender = "F",
+#     nationality = "British",  
+#     famous_for = "First Programmer"
+# )
 
-alan_turing = Programmer(
-    first_name = "Alan",
-    last_name = "Turing",
-    gender = "M",
-    nationality = "British",  
-    famous_for = "Modern Computing"
-)
+# alan_turing = Programmer(
+#     first_name = "Alan",
+#     last_name = "Turing",
+#     gender = "M",
+#     nationality = "British",  
+#     famous_for = "Modern Computing"
+# )
 
-grace_hopper = Programmer(
-    first_name = "Grace",
-    last_name = "Hopper",
-    gender = "F",
-    nationality = "American",  
-    famous_for = "COBOL language"
-)
+# grace_hopper = Programmer(
+#     first_name = "Grace",
+#     last_name = "Hopper",
+#     gender = "F",
+#     nationality = "American",  
+#     famous_for = "COBOL language"
+# )
 
-margaret_hamilton = Programmer(
-    first_name = "Margaret",
-    last_name = "Hamilton",
-    gender = "F",
-    nationality = "American",  
-    famous_for = "Apollo 11"
-)
+# margaret_hamilton = Programmer(
+#     first_name = "Margaret",
+#     last_name = "Hamilton",
+#     gender = "F",
+#     nationality = "American",  
+#     famous_for = "Apollo 11"
+# )
 
-bill_gates = Programmer(
-    first_name = "Bill",
-    last_name = "Gates",
-    gender = "M",
-    nationality = "American",  
-    famous_for = "Microsoft"
-)
+# bill_gates = Programmer(
+#     first_name = "Bill",
+#     last_name = "Gates",
+#     gender = "M",
+#     nationality = "American",  
+#     famous_for = "Microsoft"
+# )
 
-tim_berners_lee = Programmer(
-    first_name = "Tim",
-    last_name = "Berners-Lee",
-    gender = "M",
-    nationality = "British",  
-    famous_for = "World Wide Web"
-)
+# tim_berners_lee = Programmer(
+#     first_name = "Tim",
+#     last_name = "Berners-Lee",
+#     gender = "M",
+#     nationality = "British",  
+#     famous_for = "World Wide Web"
+# )
 
-zara_samm = Programmer(
-    first_name = "Zara",
-    last_name = "Samm",
-    gender = "F",
-    nationality = "British",  
-    famous_for = "Being awesome"
-)
-
+# zara_samm = Programmer(
+#     first_name = "Zara",
+#     last_name = "Samm",
+#     gender = "F",
+#     nationality = "British",  
+#     famous_for = "Being awesome"
+# )
 
 # add each instance of our programmers to our session
 # session.add(ada_lovelace)
@@ -94,6 +102,24 @@ zara_samm = Programmer(
 # session.add(bill_gates)
 # session.add(tim_berners_lee)
 # session.add(zara_samm)
+
+# create records for our favorite places table
+
+australia = Places(
+    country_name = "Australia",
+    capital_city = "Canberra",
+    population = "26000000"   
+)
+
+england = Places(
+    country_name = "England",
+    capital_city = "London",
+    population = "57690300"   
+)
+
+# add each instance of favorite places to our session
+# session.add(australia)
+# session.add(england)
 
 # commit out session to the database
 # session.commit()
@@ -117,22 +143,22 @@ zara_samm = Programmer(
 #     session.commit()
     
 # deleting a single record
-fname = input("Enter a first name: ")
-lname = input("Enter a last name: ")
-pid = input("Enter Id: ")
-programmer = session.query(Programmer).filter_by(first_name=fname, last_name=lname, id=pid).first()
-# defensive programming
-if programmer is not None:
-    print("Programmer Found: ", programmer.first_name + " " + programmer.last_name + " " + str(programmer.id))
-    confirmation = input("Are you sure you want to delete this record? (y/n) ")
-    if confirmation.lower() == 'y':
-        session.delete(programmer)
-        session.commit()
-        print("Programmer has been deleted")
-    else:
-        print("Programmer not deleted")
-else:
-    print("No records found")
+# fname = input("Enter a first name: ")
+# lname = input("Enter a last name: ")
+# pid = input("Enter Id: ")
+# programmer = session.query(Programmer).filter_by(first_name=fname, last_name=lname, id=pid).first()
+# # defensive programming
+# if programmer is not None:
+#     print("Programmer Found: ", programmer.first_name + " " + programmer.last_name + " " + str(programmer.id))
+#     confirmation = input("Are you sure you want to delete this record? (y/n) ")
+#     if confirmation.lower() == 'y':
+#         session.delete(programmer)
+#         session.commit()
+#         print("Programmer has been deleted")
+#     else:
+#         print("Programmer not deleted")
+# else:
+#     print("No records found")
 
 
 # delete multiple/all records
@@ -142,13 +168,13 @@ else:
 #     session.commit()
         
 # query the database to find all programmers
-programmers = session.query(Programmer)
-for programmer in programmers:
-    print(
-        programmer.id,
-        programmer.first_name + " " + programmer.last_name,
-        programmer.gender,
-        programmer.nationality,
-        programmer.famous_for,
-        sep=" | "
-    )
+# programmers = session.query(Programmer)
+# for programmer in programmers:
+#     print(
+#         programmer.id,
+#         programmer.first_name + " " + programmer.last_name,
+#         programmer.gender,
+#         programmer.nationality,
+#         programmer.famous_for,
+#         sep=" | "
+#     )
